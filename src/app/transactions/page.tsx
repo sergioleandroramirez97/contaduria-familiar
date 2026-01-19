@@ -19,7 +19,7 @@ import {
     Trash2
 } from "lucide-react";
 import { format } from "date-fns";
-import { es } from "date-fns/locale";
+
 import { cn } from "@/lib/utils";
 import { useFinance, Transaction } from "@/context/FinanceContext";
 
@@ -108,9 +108,10 @@ export default function TransactionsPage() {
                 account_id: accounts[0]?.id || "",
                 notes: ""
             });
-        } catch (error: any) {
+        } catch (error) {
             console.error("Error saving transaction:", error);
-            alert("No se pudo guardar la transacción: " + (error.message || "Error desconocido"));
+            const errorMessage = error instanceof Error ? error.message : "Error desconocido";
+            alert("No se pudo guardar la transacción: " + errorMessage);
         }
     };
 
@@ -118,9 +119,10 @@ export default function TransactionsPage() {
         if (!confirm("¿Estás seguro de que quieres eliminar este movimiento?")) return;
         try {
             await deleteTransaction(id);
-        } catch (error: any) {
+        } catch (error) {
             console.error("Error deleting transaction:", error);
-            alert("No se pudo eliminar el movimiento: " + (error.message || "Error desconocido"));
+            const errorMessage = error instanceof Error ? error.message : "Error desconocido";
+            alert("No se pudo eliminar el movimiento: " + errorMessage);
         }
     };
 
@@ -141,7 +143,7 @@ export default function TransactionsPage() {
 
     const openEditModal = (t: Transaction) => {
         setEditingId(t.id);
-        setModalType(t.type as any);
+        setModalType(t.type as "expense" | "income");
         setFormData({
             label: t.label,
             amount: t.amount.toString(),

@@ -39,8 +39,9 @@ export default function AuthPage() {
             }
             router.push("/");
             router.refresh();
-        } catch (err: any) {
-            setError(err.message || "Ocurrió un error inesperado");
+        } catch (err) {
+            const errorMsg = err instanceof Error ? err.message : "Ocurrió un error inesperado";
+            setError(errorMsg);
         } finally {
             setLoading(false);
         }

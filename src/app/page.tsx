@@ -313,7 +313,7 @@ export default function Dashboard() {
   );
 }
 
-function SummaryCard({ title, amount, change, trend, icon }: any) {
+function SummaryCard({ title, amount, change, trend, icon }: { title: string; amount: string; change: string; trend: 'up' | 'down'; icon: React.ReactNode }) {
   return (
     <div className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm transition-all hover:shadow-xl hover:shadow-gray-100/50 group">
       <div className="flex items-center justify-between mb-6">

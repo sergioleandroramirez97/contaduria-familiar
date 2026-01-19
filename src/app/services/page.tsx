@@ -90,9 +90,10 @@ export default function ServicesPage() {
                 });
             }
             closeModal();
-        } catch (error: any) {
+        } catch (error) {
             console.error("Error saving service:", error);
-            alert("Error al guardar el servicio: " + (error.message || "Error desconocido"));
+            const errorMessage = error instanceof Error ? error.message : "Error desconocido";
+            alert("Error al guardar el servicio: " + errorMessage);
         }
     };
 
@@ -112,9 +113,10 @@ export default function ServicesPage() {
         if (confirm("¿Seguro que quieres eliminar este servicio?")) {
             try {
                 await contextDeleteService(id);
-            } catch (error: any) {
+            } catch (error) {
                 console.error("Error deleting service:", error);
-                alert("Error al eliminar el servicio: " + (error.message || "Error desconocido"));
+                const errorMessage = error instanceof Error ? error.message : "Error desconocido";
+                alert("Error al eliminar el servicio: " + errorMessage);
             }
         }
     };
@@ -377,7 +379,7 @@ function ServiceListItem({ service, onDelete, onEdit }: { service: Service, onDe
     );
 }
 
-function CalendarView({ currentMonth, setCurrentMonth, services }: any) {
+function CalendarView({ currentMonth, setCurrentMonth, services }: { currentMonth: Date; setCurrentMonth: (d: Date) => void; services: Service[] }) {
     const days = useMemo(() => {
         const start = startOfWeek(startOfMonth(currentMonth));
         const end = endOfWeek(endOfMonth(currentMonth));

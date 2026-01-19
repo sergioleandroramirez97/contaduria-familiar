@@ -18,9 +18,9 @@ import {
     Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useFinance } from "@/context/FinanceContext";
+import { useFinance, Account } from "@/context/FinanceContext";
 import { format } from "date-fns";
-import { es } from "date-fns/locale";
+
 
 const ACCOUNT_TYPES = ["Efectivo", "Caja de Ahorro", "Billetera Virtual", "Tarjeta de Crédito", "Inversiones"];
 
@@ -30,7 +30,7 @@ export default function AccountsPage() {
     const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
     const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
-    const [selectedAccount, setSelectedAccount] = useState<any>(null);
+    const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
 
     // Form States
     const [accountForm, setAccountForm] = useState({ name: "", type: ACCOUNT_TYPES[0], balance: "" });
@@ -79,7 +79,7 @@ export default function AccountsPage() {
         setAccountForm({ name: "", type: ACCOUNT_TYPES[0], balance: "" });
     };
 
-    const openEditModal = (acc: any) => {
+    const openEditModal = (acc: Account) => {
         setSelectedAccount(acc);
         setAccountForm({ name: acc.name, type: acc.type, balance: acc.balance.toString() });
         setIsEditMode(true);
@@ -275,7 +275,7 @@ export default function AccountsPage() {
     );
 }
 
-function AccountCard({ account, onAddAmount, onEdit, onDelete }: any) {
+function AccountCard({ account, onAddAmount, onEdit, onDelete }: { account: Account; onAddAmount: () => void; onEdit: () => void; onDelete: () => void }) {
     const { name, type, balance, is_credit } = account;
 
     const getIcon = () => {

@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import { useFinance } from "@/context/FinanceContext";
 import { format, differenceInDays, parseISO } from "date-fns";
-import { es } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 
 // Types
