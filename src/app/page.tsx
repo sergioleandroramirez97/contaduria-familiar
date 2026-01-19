@@ -8,7 +8,6 @@ import {
   Plus,
   ArrowUpRight,
   ArrowDownRight,
-  Calendar,
   Target as TargetIcon,
   AlertCircle,
   Loader2
@@ -26,7 +25,7 @@ import {
   Cell
 } from "recharts";
 import { useFinance } from "@/context/FinanceContext";
-import { format, subDays, startOfMonth, isAfter, parseISO } from "date-fns";
+import { format, subDays, startOfMonth, isAfter } from "date-fns";
 import { es } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import Link from "next/link";

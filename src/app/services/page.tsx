@@ -5,10 +5,6 @@ import {
     Plus,
     Calendar as CalendarIcon,
     Bell,
-    ArrowRight,
-    RefreshCcw,
-    Wifi,
-    Tv,
     Home,
     User,
     X,
@@ -16,7 +12,10 @@ import {
     ChevronRight,
     Trash2,
     Edit2,
-    Loader2
+    Loader2,
+    Tv,
+    Wifi,
+    RefreshCcw
 } from "lucide-react";
 import {
     format,
@@ -25,20 +24,13 @@ import {
     startOfMonth,
     endOfMonth,
     eachDayOfInterval,
-    isSameDay,
-    getDay,
-    addDays,
     startOfWeek,
     endOfWeek,
-    isToday,
-    parseISO
+    isToday
 } from "date-fns";
-import { useFinance } from "@/context/FinanceContext";
 import { es } from "date-fns/locale";
+import { useFinance, Service } from "@/context/FinanceContext";
 import { cn } from "@/lib/utils";
-
-// Types
-import type { Service } from "@/context/FinanceContext";
 
 const CATEGORIES = ["Suscripción", "Vivienda", "Hogar", "Salud", "Servicio", "Educación", "Otros"] as const;
 

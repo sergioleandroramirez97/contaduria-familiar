@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { User } from '@supabase/supabase-js';
 
 export type Transaction = {
     id: string;
@@ -60,7 +61,7 @@ interface FinanceContextType {
     savings: SavingGoal[];
     categories: Category[];
     isLoading: boolean;
-    user: any;
+    user: User | null;
     refreshData: () => Promise<void>;
     signOut: () => Promise<void>;
     addTransaction: (t: Omit<Transaction, 'id'>) => Promise<void>;
@@ -94,20 +95,17 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     const [savings, setSavings] = useState<SavingGoal[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [userId, setUserId] = useState<string | null>(null);
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<User | null>(null);
 
     const fetchData = async () => {
         setIsLoading(true);
         try {
             const { data: { user: supabaseUser } } = await supabase.auth.getUser();
             if (!supabaseUser) {
-                setUserId(null);
                 setUser(null);
                 setIsLoading(false);
                 return;
             }
-            setUserId(supabaseUser.id);
             setUser(supabaseUser);
 
             const [
@@ -191,7 +189,7 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
         const uid = await getUserIdOrThrow();
 
         // Find account UUID if name was passed
-        const targetAccount = accounts.find(a => a.id === t.account_id || a.name === (t as any).account);
+        const targetAccount = accounts.find(a => a.id === t.account_id || a.name === t.account);
         if (!targetAccount) throw new Error("Cuenta no encontrada");
 
         const { error } = await supabase.from('transactions').insert([{
@@ -241,7 +239,7 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
         if (error) throw error;
 
         // 3. Aplicar nuevo efecto
-        const { data: refreshedAccs } = await supabase.from('accounts').select('*');
+        const { data: refreshedAccs } = await supabase.from('accounts').select('*') as { data: Account[] | null };
         const targetAccId = updates.account_id || oldT.account_id;
         const targetAcc = (refreshedAccs || []).find(a => a.id === targetAccId);
 
@@ -354,7 +352,7 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
 
     const updateService = async (id: string, updates: Partial<Service>) => {
         await getUserIdOrThrow();
-        const formattedUpdates: any = { ...updates };
+        const formattedUpdates: Record<string, unknown> = { ...updates };
         if (updates.billingDay) formattedUpdates.billing_day = updates.billingDay;
         if (updates.iconName) formattedUpdates.icon_name = updates.iconName;
         if (updates.endDate) formattedUpdates.end_date = updates.endDate;
@@ -389,7 +387,7 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
 
     const updateSavingGoal = async (id: string, updates: Partial<SavingGoal>) => {
         await getUserIdOrThrow();
-        const formattedUpdates: any = { ...updates };
+        const formattedUpdates: Record<string, unknown> = { ...updates };
         if (updates.targetAmount) formattedUpdates.target_amount = updates.targetAmount;
         if (updates.currentAmount) formattedUpdates.current_amount = updates.currentAmount;
 
@@ -427,7 +425,7 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
 
     const updateCategory = async (id: string, updates: Partial<Category>) => {
         await getUserIdOrThrow();
-        const formattedUpdates: any = { ...updates };
+        const formattedUpdates: Record<string, unknown> = { ...updates };
         if (updates.isIncome !== undefined) formattedUpdates.is_income = updates.isIncome;
 
         const { error } = await supabase.from('categories').update(formattedUpdates).eq('id', id);
@@ -444,7 +442,6 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
 
     const signOut = async () => {
         await supabase.auth.signOut();
-        setUserId(null);
         setUser(null);
         setAccounts([]);
         setTransactions([]);

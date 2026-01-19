@@ -6,7 +6,6 @@ import {
     Search,
     Filter,
     ArrowUpCircle,
-    ArrowDownCircle,
     X,
     Calendar as CalendarIcon,
     Wallet as WalletIcon,

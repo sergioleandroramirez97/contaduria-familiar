@@ -6,7 +6,6 @@ import {
     Trash2,
     Edit2,
     Layers,
-    Tag as TagIcon,
     X,
     ChevronRight,
     Search,

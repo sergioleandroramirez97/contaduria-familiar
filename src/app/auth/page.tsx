@@ -4,7 +4,6 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { Wallet, Mail, Lock, Loader2, ArrowRight, UserPlus, LogIn } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 export default function AuthPage() {
     const [isLogin, setIsLogin] = useState(true);

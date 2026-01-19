@@ -251,7 +251,7 @@ export default function AccountsPage() {
                     <div className="bg-white rounded-[2.5rem] w-full max-w-sm overflow-hidden shadow-2xl animate-in zoom-in duration-200" onClick={e => e.stopPropagation()}>
                         <div className="p-8 bg-emerald-600 text-white relative">
                             <h3 className="text-2xl font-black tracking-tight">Carga de Fondos</h3>
-                            <p className="text-emerald-100/70 text-sm mt-1">Suma manual a "{selectedAccount?.name}"</p>
+                            <p className="text-emerald-100/70 text-sm mt-1">Suma manual a &quot;{selectedAccount?.name}&quot;</p>
                             <button onClick={() => { setIsDepositModalOpen(false); setSelectedAccount(null); }} className="absolute top-8 right-8 text-white/50 hover:text-white hover:bg-white/10 p-2 rounded-xl transition-all">
                                 <X className="w-6 h-6" />
                             </button>
@@ -276,7 +276,7 @@ export default function AccountsPage() {
 }
 
 function AccountCard({ account, onAddAmount, onEdit, onDelete }: { account: Account; onAddAmount: () => void; onEdit: () => void; onDelete: () => void }) {
-    const { name, type, balance, is_credit } = account;
+    const { name, type, balance } = account;
 
     const getIcon = () => {
         if (type === "Efectivo") return <Banknote className="w-7 h-7" />;

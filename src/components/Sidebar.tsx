@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useFinance } from "@/context/FinanceContext";
 import {
@@ -105,7 +106,7 @@ export function Sidebar() {
                 <div className="bg-gray-50 rounded-[2rem] p-4 flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-white border-2 border-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
                         {user.user_metadata?.avatar_url ? (
-                            <img src={user.user_metadata.avatar_url} alt="User" />
+                            <Image src={user.user_metadata.avatar_url} alt="User" width={40} height={40} className="object-cover" />
                         ) : (
                             <UserCircle className="w-8 h-8 text-gray-400" />
                         )}
